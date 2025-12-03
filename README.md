@@ -43,25 +43,6 @@ streamlit run app.py
 
 The application will open in your default web browser at `http://localhost:8501`.
 
-### Training the Model
-If you need to retrain the model with new data:
-
-1. Place your training data in `Data/train.csv`.
-2. Run the training pipeline:
-   ```bash
-   python train_pipeline.py
-   ```
-   This will generate `model_pipeline.pkl` and `unique_values.pkl`.
-
-## 📂 Project Structure
-
-- `app.py`: Main Streamlit application file containing the UI and inference logic.
-- `train_pipeline.py`: Script to preprocess data and train the machine learning model.
-- `requirements.txt`: List of Python dependencies.
-- `run_app.bat`: Shortcut to run the application on Windows.
-- `Data/`: Directory for storing datasets.
-- `model_pipeline.pkl`: Saved trained model pipeline.
-- `unique_values.pkl`: Dictionary of unique categorical values used for UI dropdowns.
 
 ## 📦 Dependencies
 
