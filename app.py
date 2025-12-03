@@ -122,8 +122,8 @@ This application uses a trained Random Forest model to predict smartphone price 
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📊 Model Performance")
-st.sidebar.success("Accuracy: 94.77%")
-st.sidebar.info("Macro F1 Score: 93.18%")
+st.sidebar.success("Accuracy: ~94%")
+st.sidebar.info("Macro F1 Score: ~92%")
 
 # Create tabs
 tab1, tab2, tab3 = st.tabs(["🔮 Prediction", "📊 Batch Prediction", "📈 Model Info"])
@@ -363,8 +363,28 @@ with tab2:
             
             if st.button("🚀 Run Batch Prediction"):
                 if model is not None:
-                    predictions = model.predict(df)
-                    predictions_proba = model.predict_proba(df)
+                    # Define expected features in exact order
+                    expected_features = [
+                        'rating', 'Core_Count', 'Clock_Speed_GHz', 'RAM Size GB', 'Storage Size GB',
+                        'battery_capacity', 'fast_charging_power', 'Screen_Size', 'Resolution_Width',
+                        'Resolution_Height', 'Refresh_Rate', 'primary_rear_camera_mp', 'num_rear_cameras',
+                        'primary_front_camera_mp', 'num_front_cameras', 'storage_gb', 'Performance_Tier_Encoded',
+                        'Processor_Brand_Encoded', 'RAM_Tier_Encoded', 'Notch_Type_Encoded', '4G_Encoded',
+                        'Dual_Sim_Encoded', '5G_Encoded', 'Vo5G_Encoded', 'NFC_Encoded', 'IR_Blaster_Encoded',
+                        'memory_card_support_Encoded', 'os_name_Encoded', 'brand_encoded_label', 'os_version_label'
+                    ]
+                    
+                    # Filter dataframe to keep only expected features
+                    # Use reindex to ignore extra columns and fill missing ones with 0 (or handle as error if preferred)
+                    # Here we assume missing columns might be an issue, but the error was about EXTRA columns.
+                    # So we just select the columns that exist in both.
+                    
+                    # Better approach: Select only expected features. 
+                    # If any are missing, it will raise a KeyError which is good (user needs to provide them).
+                    X_batch = df[expected_features]
+                    
+                    predictions = model.predict(X_batch)
+                    predictions_proba = model.predict_proba(X_batch)
                     
                     df['Prediction'] = ['Non-Expensive' if p == 0 else 'Expensive' for p in predictions]
                     df['Expensive_Probability'] = predictions_proba[:, 1]
@@ -405,9 +425,9 @@ with tab3:
     with col_info1:
         st.markdown("""
         #### 🎯 Model Details
-        - **Algorithm**: XGBoost Classifier
-        - **Accuracy**: ~94%
-        - **Macro F1 Score**: ~92%
+        - **Algorithm**: Random Forest
+        - **Accuracy**: 94.77%
+        - **Macro F1 Score**: 93.18%
         - **Training Samples**: 857
         - **Validation Samples**: 172
         
@@ -430,7 +450,7 @@ with tab3:
         5. Model Training (4 algorithms tested)
         6. Hyperparameter Tuning
         7. Model Evaluation
-        8. Best Model Selection (XGBoost)
+        8. Best Model Selection (Random Forest)
         
         #### ✨ App Features
         - **Real Values**: Enter actual specs (GB, mAh, etc.)
@@ -444,6 +464,6 @@ st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: white; padding: 20px;'>
     <p>📱 Smart Phone Price Predictor | Built with Streamlit & Random Forest</p>
-    <p>Enter Real Values - App Automatically Normalizes for Prediction | Accuracy: 94.77%</p>
+    <p>Enter Real Values - App Automatically Normalizes for Prediction | Accuracy: ~94%</p>
 </div>
 """, unsafe_allow_html=True)
