@@ -115,15 +115,16 @@ st.markdown("""
 # Sidebar
 st.sidebar.title("ℹ️ About")
 st.sidebar.info("""
-This application uses a trained Random Forest model to predict smartphone price categories.
+This application uses a Random Forest model trained on SMOTE-balanced data to predict smartphone price categories.
 
 **Enter real values** - the app automatically normalizes them for the model.
 """)
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📊 Model Performance")
-st.sidebar.success("Accuracy: ~94%")
-st.sidebar.info("Macro F1 Score: ~92%")
+st.sidebar.success("Accuracy: 95.55%")
+st.sidebar.info("Macro F1 Score: 95.55%")
+st.sidebar.info("Training: SMOTE-Balanced Data")
 
 # Create tabs
 tab1, tab2, tab3 = st.tabs(["🔮 Prediction", "📊 Batch Prediction", "📈 Model Info"])
@@ -425,11 +426,12 @@ with tab3:
     with col_info1:
         st.markdown("""
         #### 🎯 Model Details
-        - **Algorithm**: Random Forest
-        - **Accuracy**: 94.77%
-        - **Macro F1 Score**: 93.18%
-        - **Training Samples**: 857
-        - **Validation Samples**: 172
+        - **Algorithm**: Random Forest Classifier
+        - **Accuracy**: 95.55%
+        - **Macro F1 Score**: 95.55%
+        - **Training Method**: SMOTE-Balanced Data
+        - **Training Samples**: 1,232 (616 per class)
+        - **Validation Samples**: 247 (balanced)
         
         #### 📊 Feature Categories
         1. **Performance**: Processor, RAM, Storage
@@ -464,6 +466,6 @@ st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: white; padding: 20px;'>
     <p>📱 Smart Phone Price Predictor | Built with Streamlit & Random Forest</p>
-    <p>Enter Real Values - App Automatically Normalizes for Prediction | Accuracy: ~94%</p>
+    <p>SMOTE-Balanced Training Data | Accuracy: 95.55% | F1-Score: 95.55%</p>
 </div>
 """, unsafe_allow_html=True)
