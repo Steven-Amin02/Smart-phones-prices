@@ -90,27 +90,23 @@ The app will open in your default browser at `http://localhost:8501`
 - Understand the training pipeline
 
 ## 📁 Project Structure
-
 ```
 Smart Phone Prices Prediction/
 ├── app.py                          # Main Streamlit application
 ├── best_model.joblib               # Trained Random Forest model (SMOTE-balanced)
 ├── requirements.txt                # Python dependencies
-├── README.md                       # This file
-├── BALANCING_SUMMARY.md            # Data balancing quick reference
 ├── preprocessing.ipynb             # Data preprocessing notebook
 ├── models.ipynb                    # Model training notebook
 ├── check_balance.py                # Script to check data balance
-├── balance_data.py                 # Script to generate balanced datasets
 ├── train_processed.csv             # Original processed training data
-├── train_balanced_smote.csv        # SMOTE-balanced training data (used)
+├── train_balanced_smote.csv        # SMOTE-balanced training data (used for final model)
 ├── train_balanced_oversampling.csv # Random oversampling balanced data
 ├── train_balanced_undersampling.csv# Random undersampling balanced data
 ├── train_balanced_smote_tomek.csv  # SMOTE + Tomek Links balanced data
 ├── test_processed.csv              # Processed test data
-├── submission_best_model.csv       # Test predictions
 ├── class_balance_visualization.png # Original data balance visualization
-└── balancing_comparison.png        # Balancing methods comparison
+├── balancing_comparison.png        # Balancing methods comparison
+└── Smart Phone Prices Prediction.pdf # Project documentation
 ```
 
 ## 🔧 Features Explained
