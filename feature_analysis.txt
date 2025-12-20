@@ -1,0 +1,42 @@
+================================================================================
+FEATURE ANALYSIS REPORT
+================================================================================
+Loaded data: 1232 rows, 32 columns
+
+Data Quality Check:
+  - Missing Values: 0
+  - No constant columns found.
+
+Calculating Feature Importance (Random Forest)...
+
+Top 10 Important Features:
+            Feature  Importance
+    Clock_Speed_GHz    0.169586
+        NFC_Encoded    0.100087
+    Storage Size GB    0.081939
+  Resolution_Height    0.070913
+        RAM Size GB    0.064357
+             rating    0.059620
+   Processor_Series    0.051730
+       Refresh_Rate    0.048257
+   Resolution_Width    0.046383
+brand_encoded_label    0.038950
+
+Bottom 5 Least Important Features:
+         Feature  Importance
+Dual_Sim_Encoded    0.003145
+ os_name_Encoded    0.002836
+      Core_Count    0.001242
+    Vo5G_Encoded    0.001022
+      4G_Encoded    0.000102
+
+Redundancy Check (High Correlation > 0.9):
+  No highly correlated features found (> 0.9).
+
+Specific Check: Resolution
+  - Resolution Columns: ['Resolution_Width', 'Resolution_Height']
+  - Correlation between Resolution_Width and Resolution_Height: 0.4181
+
+================================================================================
+Analysis Complete
+================================================================================
