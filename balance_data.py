@@ -11,7 +11,7 @@ import seaborn as sns
 
 # Load the data
 print("Loading data...")
-df = pd.read_csv('train_processed.csv')
+df = pd.read_csv('Data\Data_Preprocessed\test_processed.csv')
 
 # Separate features and target
 X = df.drop('Price_Encoded', axis=1)
