@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 
 # Page configuration
 st.set_page_config(
-    page_title="📱 Smart Phone Price Predictor",
+    page_title="Smart Phone Price Predictor",
     page_icon="📱",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -123,8 +123,8 @@ This application uses a Random Forest model trained on SMOTE-balanced data to pr
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📊 Model Performance")
-st.sidebar.success("Accuracy: 93.93%")
-st.sidebar.info("Macro F1 Score: 93.93%")
+st.sidebar.success("Accuracy: 95.55%")
+st.sidebar.info("Macro F1 Score: 95.55%")
 st.sidebar.info("Training: SMOTE-Balanced Data")
 
 # Create tabs
@@ -459,8 +459,8 @@ with tab3:
         st.markdown("""
         #### 🎯 Model Details
         - **Algorithm**: Random Forest Classifier
-        - **Accuracy**: 93.93%
-        - **Macro F1 Score**: 93.93%
+        - **Accuracy**: 95.55%
+        - **Macro F1 Score**: 95.55%
         - **Training Method**: SMOTE-Balanced Data
         - **Training Samples**: 1,232 (616 per class)
         - **Validation Samples**: 247 (balanced)
@@ -498,6 +498,6 @@ st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: white; padding: 20px;'>
     <p>📱 Smart Phone Price Predictor | Built with Streamlit & Random Forest</p>
-    <p>SMOTE-Balanced Training Data | Accuracy: 93.93% | F1-Score: 93.93%</p>
+    <p>SMOTE-Balanced Training Data | Accuracy: 95.55% | F1-Score: 95.55%</p>
 </div>
 """, unsafe_allow_html=True)
