@@ -1,14 +1,11 @@
 """
-Data Balancing Techniques for Smartphone Price Prediction
-This script demonstrates multiple methods to balance an imbalanced dataset.
+Data Balancing using SMOTE for Smartphone Price Prediction
+Simplified version - SMOTE only
 """
 
 import pandas as pd
 import numpy as np
-from sklearn.utils import resample
-from imblearn.over_sampling import SMOTE, RandomOverSampler
-from imblearn.under_sampling import RandomUnderSampler
-from imblearn.combine import SMOTEENN, SMOTETomek
+from imblearn.over_sampling import SMOTE
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -44,188 +41,71 @@ print(f"Class 0: {(y==0).sum()} ({(y==0).sum()/len(y)*100:.2f}%)")
 print(f"Class 1: {(y==1).sum()} ({(y==1).sum()/len(y)*100:.2f}%)")
 
 # ============================================================================
-# METHOD 1: Random Oversampling (Duplicate minority class samples)
+# SMOTE (Synthetic Minority Over-sampling Technique)
 # ============================================================================
 print("\n" + "="*70)
-print("METHOD 1: Random Oversampling")
-print("="*70)
-print("Duplicates minority class samples randomly until balanced")
-
-ros = RandomOverSampler(random_state=42)
-X_ros, y_ros = ros.fit_resample(X, y)
-
-print(f"New shape: {X_ros.shape}")
-print(f"New class distribution:\n{pd.Series(y_ros).value_counts()}")
-
-# Save balanced data
-df_ros = pd.concat([X_ros, pd.Series(y_ros, name='Price_Encoded')], axis=1)
-df_ros.to_csv('train_balanced_oversampling.csv', index=False)
-print("✓ Saved as 'train_balanced_oversampling.csv'")
-
-# ============================================================================
-# METHOD 2: Random Undersampling (Remove majority class samples)
-# ============================================================================
-print("\n" + "="*70)
-print("METHOD 2: Random Undersampling")
-print("="*70)
-print("Removes majority class samples randomly until balanced")
-
-rus = RandomUnderSampler(random_state=42)
-X_rus, y_rus = rus.fit_resample(X, y)
-
-print(f"New shape: {X_rus.shape}")
-print(f"New class distribution:\n{pd.Series(y_rus).value_counts()}")
-
-# Save balanced data
-df_rus = pd.concat([X_rus, pd.Series(y_rus, name='Price_Encoded')], axis=1)
-df_rus.to_csv('train_balanced_undersampling.csv', index=False)
-print("✓ Saved as 'train_balanced_undersampling.csv'")
-
-# ============================================================================
-# METHOD 3: SMOTE (Synthetic Minority Over-sampling Technique)
-# ============================================================================
-print("\n" + "="*70)
-print("METHOD 3: SMOTE (Recommended)")
+print("SMOTE - Synthetic Minority Over-sampling Technique")
 print("="*70)
 print("Creates synthetic samples for minority class using k-nearest neighbors")
 
 smote = SMOTE(random_state=42)
 X_smote, y_smote = smote.fit_resample(X, y)
 
-print(f"New shape: {X_smote.shape}")
+print(f"\nNew shape: {X_smote.shape}")
 print(f"New class distribution:\n{pd.Series(y_smote).value_counts()}")
+print(f"Class 0: {(y_smote==0).sum()} ({(y_smote==0).sum()/len(y_smote)*100:.2f}%)")
+print(f"Class 1: {(y_smote==1).sum()} ({(y_smote==1).sum()/len(y_smote)*100:.2f}%)")
 
 # Save balanced data
 df_smote = pd.concat([X_smote, pd.Series(y_smote, name='Price_Encoded')], axis=1)
 df_smote.to_csv('train_balanced_smote.csv', index=False)
-print("✓ Saved as 'train_balanced_smote.csv'")
-
-# ============================================================================
-# METHOD 4: Combination (SMOTE + Tomek Links)
-# ============================================================================
-print("\n" + "="*70)
-print("METHOD 4: SMOTE + Tomek Links")
-print("="*70)
-print("SMOTE to oversample, then Tomek links to clean borderline samples")
-
-smt = SMOTETomek(random_state=42)
-X_smt, y_smt = smt.fit_resample(X, y)
-
-print(f"New shape: {X_smt.shape}")
-print(f"New class distribution:\n{pd.Series(y_smt).value_counts()}")
-
-# Save balanced data
-df_smt = pd.concat([X_smt, pd.Series(y_smt, name='Price_Encoded')], axis=1)
-df_smt.to_csv('train_balanced_smote_tomek.csv', index=False)
-print("✓ Saved as 'train_balanced_smote_tomek.csv'")
+print("\n✓ Saved as 'train_balanced_smote.csv'")
 
 # ============================================================================
 # Visualization
 # ============================================================================
 print("\n" + "="*70)
-print("Creating comparison visualization...")
+print("Creating Visualization")
 print("="*70)
 
-fig, axes = plt.subplots(2, 3, figsize=(15, 10))
-fig.suptitle('Data Balancing Techniques Comparison', fontsize=16, fontweight='bold')
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
-methods = [
-    ('Original', y),
-    ('Random Oversampling', y_ros),
-    ('Random Undersampling', y_rus),
-    ('SMOTE', y_smote),
-    ('SMOTE + Tomek', y_smt)
-]
+# Plot 1: Before SMOTE
+axes[0].bar(['Non-Expensive', 'Expensive'], 
+            [y.value_counts()[0], y.value_counts()[1]],
+            color=['lightgreen', 'lightcoral'])
+axes[0].set_title('Before SMOTE\n(Imbalanced)', fontsize=14, fontweight='bold')
+axes[0].set_ylabel('Number of Samples')
+axes[0].set_ylim([0, max(y.value_counts()) * 1.2])
+for i, v in enumerate([y.value_counts()[0], y.value_counts()[1]]):
+    axes[0].text(i, v + 20, str(v), ha='center', fontweight='bold')
 
-for idx, (name, data) in enumerate(methods):
-    row = idx // 3
-    col = idx % 3
-    ax = axes[row, col]
-    
-    counts = pd.Series(data).value_counts().sort_index()
-    colors = ['#3498db', '#e74c3c']
-    
-    bars = ax.bar(counts.index, counts.values, color=colors, edgecolor='black', linewidth=1.5)
-    ax.set_title(name, fontsize=12, fontweight='bold')
-    ax.set_xlabel('Class', fontsize=10)
-    ax.set_ylabel('Count', fontsize=10)
-    ax.set_xticks([0, 1])
-    ax.set_xticklabels(['Non-Expensive', 'Expensive'])
-    ax.grid(axis='y', alpha=0.3)
-    
-    # Add count labels
-    for i, bar in enumerate(bars):
-        height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., height,
-                f'{int(height)}',
-                ha='center', va='bottom', fontweight='bold')
-    
-    # Add percentage labels
-    total = counts.sum()
-    for i, (class_label, count) in enumerate(counts.items()):
-        percentage = (count / total) * 100
-        ax.text(i, count/2, f'{percentage:.1f}%',
-                ha='center', va='center', fontsize=10, fontweight='bold', color='white')
-
-# Remove empty subplot
-axes[1, 2].axis('off')
+# Plot 2: After SMOTE
+axes[1].bar(['Non-Expensive', 'Expensive'], 
+            [pd.Series(y_smote).value_counts()[0], pd.Series(y_smote).value_counts()[1]],
+            color=['lightgreen', 'lightcoral'])
+axes[1].set_title('After SMOTE\n(Balanced)', fontsize=14, fontweight='bold')
+axes[1].set_ylabel('Number of Samples')
+axes[1].set_ylim([0, max(pd.Series(y_smote).value_counts()) * 1.2])
+for i, v in enumerate([pd.Series(y_smote).value_counts()[0], pd.Series(y_smote).value_counts()[1]]):
+    axes[1].text(i, v + 20, str(v), ha='center', fontweight='bold')
 
 plt.tight_layout()
-plt.savefig('balancing_comparison.png', dpi=300, bbox_inches='tight')
-print("✓ Visualization saved as 'balancing_comparison.png'")
+plt.savefig('smote_balancing.png', dpi=150, bbox_inches='tight')
+print("✓ Saved visualization as 'smote_balancing.png'")
 
-# ============================================================================
-# Summary and Recommendations
-# ============================================================================
+# Summary
 print("\n" + "="*70)
-print("SUMMARY & RECOMMENDATIONS")
+print("SUMMARY")
 print("="*70)
-
-print("""
-📊 Files Created:
-   1. train_balanced_oversampling.csv  - Random oversampling
-   2. train_balanced_undersampling.csv - Random undersampling  
-   3. train_balanced_smote.csv         - SMOTE (RECOMMENDED)
-   4. train_balanced_smote_tomek.csv   - SMOTE + Tomek Links
-
-💡 Which Method to Use?
-
-   ✓ SMOTE (Method 3) - RECOMMENDED for your case
-     - Creates synthetic samples, not just duplicates
-     - Maintains data quality
-     - Works well with moderate imbalance (2.56 ratio)
-     - Best balance between performance and data size
-
-   ⚠ Random Oversampling (Method 1)
-     - Simple but may cause overfitting
-     - Just duplicates existing samples
-     - Use if SMOTE doesn't work well
-
-   ⚠ Random Undersampling (Method 2)
-     - Loses information (616 → 241 samples)
-     - Only use if you have LOTS of data
-     - NOT recommended for your dataset size
-
-   ⚠ SMOTE + Tomek (Method 4)
-     - More sophisticated, cleans noisy samples
-     - Try if SMOTE alone doesn't improve results
-
-📝 Next Steps:
-   1. Use 'train_balanced_smote.csv' to retrain your model
-   2. Compare performance with original data
-   3. Check if F1-score and recall improve
-   4. If results are worse, try class_weight parameter instead
-
-🔧 Alternative: Use Class Weights (No resampling needed)
-   In your XGBoost model, add:
-   
-   scale_pos_weight = len(y[y==0]) / len(y[y==1])  # ≈ 2.56
-   
-   model = XGBClassifier(scale_pos_weight=scale_pos_weight, ...)
-   
-   This tells the model to pay more attention to minority class!
-""")
-
+print(f"Original samples: {len(y)}")
+print(f"  - Non-Expensive: {(y==0).sum()}")
+print(f"  - Expensive: {(y==1).sum()}")
+print(f"  - Imbalance ratio: {(y==0).sum() / (y==1).sum():.2f}:1")
+print(f"\nAfter SMOTE: {len(y_smote)}")
+print(f"  - Non-Expensive: {(y_smote==0).sum()}")
+print(f"  - Expensive: {(y_smote==1).sum()}")
+print(f"  - Balanced: {(y_smote==0).sum() / (y_smote==1).sum():.2f}:1")
+print(f"\nSynthetic samples created: {len(y_smote) - len(y)}")
 print("="*70)
-print("BALANCING COMPLETE!")
-print("="*70)
+print("\n✅ SMOTE balancing completed successfully!")
