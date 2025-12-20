@@ -1,3 +1,4 @@
+#  python -m streamlit run app.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -188,8 +189,33 @@ with tab1:
         
         with col_a:
             os_name = st.selectbox("OS", ["Android", "iOS", "HarmonyOS", "ColorOS", "MIUI", "OneUI", "OxygenOS", "Other"], index=0)
-            brand_encoded = st.number_input("Brand Code", 0, 100, 17, 1, 
-                                           help="Encoded brand identifier (0-100)")
+            
+            # Brand mapping (from label encoding in preprocessing)
+            brand_options = {
+                "Samsung": 17,
+                "Xiaomi": 43,
+                "Vivo": 38,
+                "Realme": 29,
+                "OPPO": 14,
+                "Apple": 1,
+                "Motorola": 12,
+                "OnePlus": 16,
+                "Tecno": 34,
+                "iQOO": 24,
+                "Infinix": 23,
+                "Poco": 27,
+                "Nokia": 13,
+                "Oppo": 15,
+                "Huawei": 22,
+                "Google": 19,
+                "Honor": 21,
+                "Asus": 2,
+                "Sony": 32,
+                "Nothing": 28,
+                "Other": 0
+            }
+            brand_name = st.selectbox("Brand", list(brand_options.keys()), index=0)
+            brand_encoded = brand_options[brand_name]
             
         with col_b:
             os_version = st.number_input("OS Version", 0, 30, 13, 1,
@@ -206,7 +232,10 @@ with tab1:
             notch_map = {"No Notch": 0, "Waterdrop": 1, "Punch Hole": 2, "Wide Notch": 3, "Dynamic Island": 4, "Under Display": 5, "Pop-up": 6}
             os_map = {"Android": 1, "iOS": 2, "HarmonyOS": 3, "ColorOS": 4, "MIUI": 5, "OneUI": 6, "OxygenOS": 7, "Other": 0}
             
-            # Normalize real values
+            # WARNING: Data in training file is ALREADY NORMALIZED (0-1 range)
+            # We need to normalize user input to match!
+            
+            # Normalize real values to 0-1 range (matching training data)
             rating_norm = normalize_rating(rating)
             clock_speed_norm = normalize_clock_speed(clock_speed)
             ram_norm = normalize_ram(ram_gb)
@@ -219,6 +248,9 @@ with tab1:
             refresh_norm = normalize_refresh_rate(refresh_rate)
             rear_cam_norm = normalize_camera_mp(primary_rear_camera_mp)
             front_cam_norm = normalize_camera_mp(primary_front_camera_mp)
+            
+            # Normalize storage_gb (16-2000 GB range)
+            storage_gb_norm = (storage_gb - 16) / (2000 - 16)
             
             # Prepare input data - MUST match exact feature order from model
             features = pd.DataFrame({
@@ -237,7 +269,7 @@ with tab1:
                 'num_rear_cameras': [num_rear_cameras / 5.0],  # Normalize to 0-1
                 'primary_front_camera_mp': [front_cam_norm],
                 'num_front_cameras': [num_front_cameras / 3.0],  # Normalize to 0-1
-                'storage_gb': [float(storage_gb)],
+                'storage_gb': [float(storage_gb)],  # Keep as raw value (matches training data)
                 'Performance_Tier_Encoded': [perf_tier_map[performance_tier]],
                 'Processor_Brand_Encoded': [proc_brand_map[processor_brand]],
                 'RAM_Tier_Encoded': [ram_tier_map[ram_tier]],
