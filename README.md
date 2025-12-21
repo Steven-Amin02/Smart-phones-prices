@@ -11,7 +11,7 @@ A powerful web application built with Streamlit that predicts whether a smartpho
   - Probability gauges
   - Distribution charts
   - Feature importance visualization
-- **Model Performance**: 95.55% accuracy with Random Forest classifier (SMOTE-balanced training)
+- **Model Performance**: 93.93% accuracy with Random Forest classifier (SMOTE-balanced training)
 - **Real-World Inputs**: Enter actual values (GB, mAh, inches) - automatically normalized for prediction
 - **Comprehensive Features**: 30 features including processor, camera, display, battery, and connectivity specs
 
@@ -45,8 +45,8 @@ The app will open in your default browser at `http://localhost:8501`
 ## 📊 Model Information
 
 - **Algorithm**: Random Forest Classifier (SMOTE-Balanced Training)
-- **Accuracy**: 95.55% (on validation set)
-- **Macro F1 Score**: 95.55%
+- **Accuracy**: 93.93% (on validation set)
+- **Macro F1 Score**: 93.93%
 - **Training Data**: 1,232 samples (SMOTE-balanced: 616 per class)
 - **Original Training Data**: 857 samples (imbalanced)
 - **Validation Data**: 247 samples (balanced)
@@ -90,6 +90,7 @@ The app will open in your default browser at `http://localhost:8501`
 - Understand the training pipeline
 
 ## 📁 Project Structure
+
 ```
 Smart Phone Prices Prediction/
 ├── src/
@@ -98,15 +99,19 @@ Smart Phone Prices Prediction/
 ├── requirements.txt                # Python dependencies
 ├── preprocessing.ipynb             # Data preprocessing notebook
 ├── models.ipynb                    # Model training notebook
+├── balance_data.py                 # Script to balance data using various methods
 ├── check_balance.py                # Script to check data balance
-├── train_processed.csv             # Original processed training data
-├── train_balanced_smote.csv        # SMOTE-balanced training data (used for final model)
-├── train_balanced_oversampling.csv # Random oversampling balanced data
-├── train_balanced_undersampling.csv# Random undersampling balanced data
-├── train_balanced_smote_tomek.csv  # SMOTE + Tomek Links balanced data
+├── train.csv                       # Original training data
+├── test.csv                        # Original test data
+├── train_processed.csv             # Processed training data
 ├── test_processed.csv              # Processed test data
-├── class_balance_visualization.png # Original data balance visualization
+├── train_balanced_smote.csv        # SMOTE-balanced training data (used for final model)
+├── submission_best_model.csv       # Model predictions on test set
 ├── balancing_comparison.png        # Balancing methods comparison
+├── smote_balancing.png             # SMOTE balancing visualization
+├── Models Documentation.txt        # Model hyperparameters documentation
+├── Project_Report.md               # Comprehensive technical report
+├── feature_analysis.txt            # Feature importance analysis
 └── Smart Phone Prices Prediction.pdf # Project documentation
 ```
 
@@ -155,14 +160,14 @@ The app accepts **real-world values** and automatically normalizes them for the 
 
 | Metric                    | Score      |
 | ------------------------- | ---------- |
-| **Accuracy**              | **95.55%** |
-| **Macro F1**              | **95.55%** |
-| Precision (Non-Expensive) | 95.2%      |
-| Recall (Non-Expensive)    | 96.0%      |
-| F1-Score (Non-Expensive)  | 95.6%      |
-| Precision (Expensive)     | 95.9%      |
-| Recall (Expensive)        | 95.1%      |
-| F1-Score (Expensive)      | 95.5%      |
+| **Accuracy**              | **93.93%** |
+| **Macro F1**              | **93.93%** |
+| Precision (Non-Expensive) | 93.7%      |
+| Recall (Non-Expensive)    | 94.4%      |
+| F1-Score (Non-Expensive)  | 94.0%      |
+| Precision (Expensive)     | 94.2%      |
+| Recall (Expensive)        | 93.5%      |
+| F1-Score (Expensive)      | 93.9%      |
 
 ### Test Set Results
 
@@ -185,7 +190,7 @@ The app accepts **real-world values** and automatically normalizes them for the 
 - **Binary Classification**: Model predicts 0 (Non-Expensive) or 1 (Expensive)
 - **Confidence Scores**: Probability percentages for both categories
 - **Batch Prediction**: Upload CSV files with normalized feature values (0-1 scale)
-- **High Accuracy**: 95.55% accuracy on validation set with excellent balanced performance
+- **High Accuracy**: 93.93% accuracy on validation set with excellent balanced performance
 - **SMOTE-Balanced Training**: Model trained on SMOTE-balanced data for fair predictions across both classes
 
 ## 📊 Data Balancing
@@ -212,7 +217,7 @@ The model was trained on SMOTE-balanced data to address class imbalance:
 - Prevents model bias toward majority class
 - Industry-standard technique for handling imbalanced data
 
-**Result**: Both classes now perform equally well (95.5% F1-score for each class)!
+**Result**: Both classes now perform equally well (~94% F1-score for each class)!
 
 ## 🤝 Contributing
 
