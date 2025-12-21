@@ -37,7 +37,7 @@ pip install -r requirements.txt
 ### Running the App
 
 ```bash
-python -m streamlit run app.py
+python -m streamlit run src/app.py
 ```
 
 The app will open in your default browser at `http://localhost:8501`
@@ -55,9 +55,9 @@ The app will open in your default browser at `http://localhost:8501`
 ### Models Tested
 
 - **Random Forest** (Selected - Best Performance: 95.55% accuracy on SMOTE-balanced data)
+- SVC (Support Vector Classifier) - Tuned (Poly Kernel)
 - XGBoost
 - Logistic Regression
-- SVC (Support Vector Classifier)
 
 ## 🎯 Usage
 
@@ -92,7 +92,8 @@ The app will open in your default browser at `http://localhost:8501`
 ## 📁 Project Structure
 ```
 Smart Phone Prices Prediction/
-├── app.py                          # Main Streamlit application
+├── src/
+│   └── app.py                  # Main Streamlit application
 ├── best_model.joblib               # Trained Random Forest model (SMOTE-balanced)
 ├── requirements.txt                # Python dependencies
 ├── preprocessing.ipynb             # Data preprocessing notebook
@@ -131,6 +132,13 @@ The app accepts **real-world values** and automatically normalizes them for the 
 14. **Processor brands**: Snapdragon, MediaTek, Apple, Exynos, etc.
 15. **Connectivity**: 4G, 5G, NFC, IR Blaster, Dual SIM, etc.
 16. **Brand & OS**: Manufacturer and operating system
+
+### 🔑 Top Predictors (Feature Importance):
+1. **Resolution_Width** (16.2%)
+2. **Resolution_Height** (13.7%)
+3. **RAM Size GB** (8.4%)
+4. **Price** (7.5%)
+5. **Performance Tier** (7.1%)
 
 ## 🎨 UI Features
 
