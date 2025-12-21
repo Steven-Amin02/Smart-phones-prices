@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 
 # Page configuration
 st.set_page_config(
-    page_title="Smart Phone Price Predictor",
+    page_title="📱 Smart Phone Price Predictor",
     page_icon="📱",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -123,8 +123,8 @@ This application uses a Random Forest model trained on SMOTE-balanced data to pr
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📊 Model Performance")
-st.sidebar.success("Accuracy: 95.55%")
-st.sidebar.info("Macro F1 Score: 95.55%")
+st.sidebar.success("Accuracy: 95.95%")
+st.sidebar.info("Macro F1 Score: 95.95%")
 st.sidebar.info("Training: SMOTE-Balanced Data")
 
 # Create tabs
@@ -459,23 +459,19 @@ with tab3:
         st.markdown("""
         #### 🎯 Model Details
         - **Algorithm**: Random Forest Classifier
-        - **Accuracy**: 95.55%
-        - **Macro F1 Score**: 95.55%
+        - **Accuracy**: 95.95%
+        - **Macro F1 Score**: 95.95%
         - **Training Method**: SMOTE-Balanced Data
         - **Training Samples**: 1,232 (616 per class)
         - **Validation Samples**: 247 (balanced)
         
-        #### 🏆 Top Predictors (Most Important Features)
-        1. **Processor Speed** (Clock Speed GHz) 🚀
-        2. **RAM Size** (GB) 💾
-        3. **Resolution** (Width/Height) 📺
-        4. **Refresh Rate** (Hz) 🔄
-        5. **Fast Charging** (W) ⚡
-        
-        #### 💡 Key Data Insights
-        - **Speed is King**: The fastest processors almost always belong to the 'Expensive' category.
-        - **The Battery Paradox**: Expensive phones often have *smaller* batteries than budget phones! They prioritize slimness and efficiency over raw capacity.
-        - **Display Matters**: High refresh rates (120Hz+) are a strong indicator of a premium device.
+        #### 📊 Feature Categories
+        1. **Performance**: Processor, RAM, Storage
+        2. **Display**: Screen size, Resolution, Refresh rate
+        3. **Camera**: Rear & Front cameras, MP
+        4. **Battery**: Capacity, Fast charging
+        5. **Connectivity**: 4G, 5G, NFC, etc.
+        6. **Other**: Brand, OS, Physical features
         """)
     
     with col_info2:
@@ -502,6 +498,6 @@ st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: white; padding: 20px;'>
     <p>📱 Smart Phone Price Predictor | Built with Streamlit & Random Forest</p>
-    <p>SMOTE-Balanced Training Data | Accuracy: 95.55% | F1-Score: 95.55%</p>
+    <p>SMOTE-Balanced Training Data | Accuracy: 95.95% | F1-Score: 95.95%</p>
 </div>
 """, unsafe_allow_html=True)
